@@ -1,12 +1,31 @@
 import interfaces.Navigator;
 
 public class Main {
+
     public static void main(String[] args) {
+
         Navigator navigator = new Navigator();
+
     }
+
 }
 
-// TODO Separat klasse til at holde competitive members i. -- DONE, men bedre fordeling i sort
-// alt traversing ifbm treasury kører bare begge arraylists igennem.
+/*
+TODO ACTIVE disciplines på competitive member
 
-// member som abstract klass?
+
+TODO Competitive Controller:
+
+Add swim result testes
+
+Sorter efter top tider via CompareTo
+Slet alt andet end top 5 tider i ArrayList
+Display top 5 tider
+
+
+TODO Navigator og UI
+Tekst og UI trævles igennem og fikses/implementeres til at give ordentlig respons, korrekt print mv
+
+
+TODO Andre småting som nævnt i hver klasse
+ */

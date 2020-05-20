@@ -66,7 +66,7 @@ public class UserInterface {
     public void enterToReturn() {
         displayMsg("Press enter to return to the main menu.");
         try {
-            br.readLine(); // virker pt ikke
+            br.readLine();
         } catch (Exception e) {
 
         }

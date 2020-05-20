@@ -1,16 +1,14 @@
 package data;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class CompetitiveMember extends Member implements Serializable {
+public class CompetitiveMember extends Member {
     private ArrayList<SwimResult> swimResults = new ArrayList<SwimResult>();
-    private boolean isCompetitive;
+    // booleans for active disciplines her
 
-    public CompetitiveMember(LocalDate birthDate, String name, boolean isActive, boolean isCompetitive) {
+    public CompetitiveMember(LocalDate birthDate, String name, boolean isActive) {
         super(birthDate, name, isActive);
-        this.isCompetitive = true;
     }
 
     public void addSwimResult(SwimResult sr) {
@@ -21,6 +19,7 @@ public class CompetitiveMember extends Member implements Serializable {
         swimResults.remove(i);
     }
 
+    // TODO
     public SwimResult getBestResult(String discipline) {
         ArrayList<SwimResult> bestResultsInDiscipline = new ArrayList<>();
         for (int i = 0; i<swimResults.size(); i++) {
@@ -55,15 +54,7 @@ public class CompetitiveMember extends Member implements Serializable {
         } else {
             juniorSenior = "Junior";
         }
-        return String.format("Name: "+this.getName()+"\nAge: "+getAge()+"\nActive membership: "+ this.isActive() +"\nTeam age: "+juniorSenior+"\nCompetitive swimmer: "+isCompetitive+"\nCurrent subscription balance: "+this.getBalance()+"\n---\n");
-    }
-
-    public boolean isCompetitive() {
-        return true;
-    }
-
-    public void setCompetitive(boolean competitive) {
-        isCompetitive = competitive;
+        return String.format("Name: "+this.getName()+"\nAge: "+getAge()+"\nActive membership: "+ this.isActive() +"\nTeam age: "+juniorSenior+"\nCompetitive swimmer: Yes\nCurrent subscription balance: "+this.getBalance()+"\n---\n");
     }
 
 }
