@@ -12,8 +12,8 @@ public class Member implements Serializable {
     private String name;
     private boolean isActive;
     private boolean isSenior;
-    private boolean isCompetitive = false;
     private int balance;
+    private boolean isCompetitive;
     private static int IDcount = 001;
     private int id;
 
@@ -25,12 +25,12 @@ public class Member implements Serializable {
     private int belowIsJunior = 18;
     private int higherIsElderly = 60;
 
-    public Member(LocalDate birthDate, String name, boolean isActive, boolean isCompetitive) {
+    public Member(LocalDate birthDate, String name, boolean isActive) {
         this.birthDate = birthDate;
         this.name = name;
         this.isActive = isActive;
         this.id = IDcount;
-        this.isCompetitive = isCompetitive;
+        this.isCompetitive = false;
         IDcount++;
 
         if (getAge()<belowIsJunior) {
@@ -62,9 +62,16 @@ public class Member implements Serializable {
     }
 
     public String toString() {
-        return String.format("Name: "+name+"\nAge: "+getAge()+"\nActive membership: "+ isActive +"\nCompetitive swimmer: "+isCompetitive+"\nCurrent subscription balance: "+balance+"\n---\n");
+        String juniorSenior;
+        if (isSenior) {
+            juniorSenior = "Senior";
+        } else {
+            juniorSenior = "Junior";
+        }
+        return String.format("Name: "+name+"\nAge: "+getAge()+"\nActive membership: "+ isActive +"\nTeam age: "+juniorSenior+"\nCompetitive swimmer: "+isCompetitive()+"\nCurrent subscription balance: "+balance+"\n---\n");
     }
 
+    // competitivemember methods
     public void addSwimResult(SwimResult sr) {
     }
 
@@ -194,10 +201,9 @@ public class Member implements Serializable {
     }
 
     public boolean isCompetitive() {
-        return isCompetitive;
+        return false;
     }
 
     public void setCompetitive(boolean competitive) {
-        isCompetitive = competitive;
     }
 }

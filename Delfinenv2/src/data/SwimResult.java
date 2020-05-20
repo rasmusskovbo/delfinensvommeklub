@@ -17,7 +17,7 @@ public class SwimResult implements Serializable {
     }
 
     public String toString() {
-        return String.format("Discpline: "+discipline+" -- Placed #"+placement+" -- @"+time);
+        return String.format("Discpline: "+discipline+" -- Placed #"+placement+" -- @"+time+"\n");
     }
 
     public String getDiscipline() {

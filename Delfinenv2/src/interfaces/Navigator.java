@@ -72,11 +72,14 @@ public class Navigator {
                 break;
 
             case 2:
-                ui.displayMsg(database.toString());
+                if (database.getMembers().size() > 0) {
+                    ui.displayMsg(database.toString());
+                } else {
+                    ui.displayMsg("Currently no members in the database.");
+                }
                 break;
 
             case 3:
-                ui.enterToReturn();
                 break;
         }
     }
@@ -97,7 +100,6 @@ public class Navigator {
                 break;
 
             case 3:
-                ui.enterToReturn();
                 break;
         }
     }
@@ -119,11 +121,12 @@ public class Navigator {
                 break;
 
             case 3:
-                ArrayList<Member> memberz = database.getAllCompetitiveMembers(false, true);
+                // testkald
+                ArrayList<Member> memberz = database.getAllCompetitiveMembers();
                 System.out.print(memberz.get(0).getAllResults());
+                break;
 
             case 4:
-                ui.enterToReturn();
                 break;
         }
     }
@@ -153,11 +156,11 @@ public class Navigator {
         // Laver et competitivemember i stedet for alm hvis competitive er true
         if (isCompetitive) {
             database.addMember(database.createMember(birthDate, name, status, true));
-            ui.displayMsg(database.getMembers().get(0).toString());
         } else {
-            database.addMember(database.createMember(birthDate, name, status, false));
-            ui.displayMsg(database.getMembers().get(0).toString());
+            database.addMember(database.createMember(birthDate, name, status));
         }
+        ui.displayMsg("\nEntry complete:\n---");
+        ui.displayMsg(database.getMembers().get(database.getMembers().size()-1).toString());
     }
 
     // Returner totalkontingent for alle medlemmer
@@ -249,12 +252,13 @@ public class Navigator {
             isSenior = false;
         }
 
-        ArrayList<Member> srmembers = database.getAllCompetitiveMembers(isSenior, false);
+        ArrayList<Member> srmembers = database.getCompetitiveMembersJuniorSenior(isSenior);
         ArrayList<SwimResult> srBest = new ArrayList<>();
         for (int i = 0; i<srmembers.size(); i++) {
             srBest.add(srmembers.get(i).getBestResult(discipline));
         }
 
+        // test kald
         ui.displayMsg(srBest.toString());
 
         // TODO Sorter efter top 5 tider via compareto på swimresult

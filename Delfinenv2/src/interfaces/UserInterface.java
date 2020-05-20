@@ -65,7 +65,11 @@ public class UserInterface {
     // Scanner functions
     public void enterToReturn() {
         displayMsg("Press enter to return to the main menu.");
-        in.nextLine(); // virker pt ikke
+        try {
+            br.readLine(); // virker pt ikke
+        } catch (Exception e) {
+
+        }
     }
 
     public int nextInt(){

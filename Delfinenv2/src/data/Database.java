@@ -11,7 +11,7 @@ public class Database implements Serializable {
     private File databaseFile = new File("src/data/database.txt");
 
     public Member createMember(LocalDate birthDate, String name, boolean isActive) {
-        return new Member(birthDate, name, isActive, false);
+        return new Member(birthDate, name, isActive);
     }
 
     public CompetitiveMember createMember(LocalDate birthDate, String name, boolean isActive, boolean isCompetitive) {
@@ -62,7 +62,7 @@ public class Database implements Serializable {
     // Returner String med alle navne ifbm indtastning af SwimResults
     public String getAllCompetitiveNames() {
         String result = "";
-        ArrayList<Member> compMembers = getAllCompetitiveMembers(true, true);
+        ArrayList<Member> compMembers = getAllCompetitiveMembers();
         for (int i = 0; i<compMembers.size(); i++) {
             result += members.get(i).getName();
             result += "|";
@@ -70,32 +70,32 @@ public class Database implements Serializable {
         return result;
     }
 
-    public ArrayList<Member> getAllCompetitiveMembers(boolean isSenior, boolean getAll) {
-        if (!getAll) {
-            ArrayList<Member> compMembers = new ArrayList<>();
-            if (isSenior) {
-                for (int i = 0; i < members.size(); i++) {
-                    if (members.get(i).isCompetitive() && members.get(i).isSenior()) {
-                        compMembers.add(members.get(i));
-                    }
-                }
-            } else {
-                for (int i = 0; i < members.size(); i++) {
-                    if (members.get(i).isCompetitive() && !members.get(i).isSenior()) {
-                        compMembers.add(members.get(i));
-                    }
-                }
-            }
-            return compMembers;
-        } else {
-            ArrayList<Member> compMembers = new ArrayList<>();
+    public ArrayList<Member> getCompetitiveMembersJuniorSenior(boolean isSenior) {
+        ArrayList<Member> competitiveMembers = new ArrayList<>();
+        if (isSenior) {
             for (int i = 0; i < members.size(); i++) {
-                if (members.get(i).isCompetitive()) {
-                    compMembers.add(members.get(i));
-                   }
+                if (members.get(i).isCompetitive() && members.get(i).isSenior()) {
+                    competitiveMembers.add(members.get(i));
+                }
             }
-            return compMembers;
+        } else {
+            for (int i = 0; i < members.size(); i++) {
+                if (members.get(i).isCompetitive() && !members.get(i).isSenior()) {
+                    competitiveMembers.add(members.get(i));
+                }
+            }
         }
+        return competitiveMembers;
+    }
+
+    public ArrayList<Member> getAllCompetitiveMembers() {
+        ArrayList<Member> competitiveMembers = new ArrayList<>();
+        for (int i = 0; i < members.size(); i++) {
+            if (members.get(i).isCompetitive()) {
+                competitiveMembers.add(members.get(i));
+            }
+        }
+        return competitiveMembers;
     }
 
     public String toString() {

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 
 public class CompetitiveMember extends Member implements Serializable {
     private ArrayList<SwimResult> swimResults = new ArrayList<SwimResult>();
+    private boolean isCompetitive;
 
     public CompetitiveMember(LocalDate birthDate, String name, boolean isActive, boolean isCompetitive) {
-        super(birthDate, name, isActive, isCompetitive);
+        super(birthDate, name, isActive);
+        this.isCompetitive = true;
     }
 
     public void addSwimResult(SwimResult sr) {
@@ -47,7 +49,21 @@ public class CompetitiveMember extends Member implements Serializable {
     }
 
     public String toString() {
-        return String.format("Name: " + this.getName() + "\nAge: " + getAge() + "\nActive membership: " + this.isActive() + "\nCompetitive swimmer: " + this.isCompetitive() + "\nCurrent subscription balance: " + this.getBalance() + "\n---\n");
+        String juniorSenior;
+        if (this.isSenior()) {
+            juniorSenior = "Senior";
+        } else {
+            juniorSenior = "Junior";
+        }
+        return String.format("Name: "+this.getName()+"\nAge: "+getAge()+"\nActive membership: "+ this.isActive() +"\nTeam age: "+juniorSenior+"\nCompetitive swimmer: "+isCompetitive+"\nCurrent subscription balance: "+this.getBalance()+"\n---\n");
+    }
+
+    public boolean isCompetitive() {
+        return true;
+    }
+
+    public void setCompetitive(boolean competitive) {
+        isCompetitive = competitive;
     }
 
 }
