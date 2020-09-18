@@ -1,57 +1,71 @@
 package controllers;
 
 import data.Database;
-import interfaces.UserInterface;
 
 import java.time.LocalDate;
 
-public class MembersController {
-    UserInterface ui;
-    Database database;
+import static interfaces.UserInterface.*;
 
-    public MembersController(UserInterface ui, Database database) {
-        this.ui = ui;
-        this.database = database;
+public class MembersController {
+
+    public MembersController() {
     }
 
     public void addMember() {
-        ui.displayMsg("Please enter name of member: ");
-        String name = ui.stringValidation("[a-zA-Z]+[^\\d]{1,40}"); //"[a-zA-Z]+[^\\d]{1,40}"
+        displayMsg("Please enter name of member: ");
+        String name = stringValidation("[a-zA-Z]+[^\\d]{1,40}", "Please input name, using no less than 1 and no more than 40 letters"); //"[a-zA-Z]+[^\\d]{1,40}"
 
-        ui.displayMsg("Please enter year of birth of member, in digits (1900-2020): ");
-        int year = ui.intValidation(2020,1900);
-        ui.displayMsg("Please enter month of birth of member, in digits (1-12): ");
-        int month = ui.intValidation(12,1);
-        ui.displayMsg("Please enter day of birth of member, in digits (1-31): ");
-        int day = ui.intValidation(31,1);
+        displayMsg("Please enter year of birth of member, in digits (1900-2020): ");
+        int year = intValidation(2020,1900);
+        displayMsg("Please enter month of birth of member, in digits (1-12): ");
+        int month = intValidation(12,1);
+        displayMsg("Please enter day of birth of member, in digits (1-31): ");
+        int day = intValidation(31,1);
 
         LocalDate birthDate = LocalDate.of(year,month,day);
 
-        ui.displayMsg("Please indicate membership status: ");
-        ui.displayMsg("Active membership? True/False");
-        boolean status = Boolean.parseBoolean(ui.stringValidation("False|True|true|false"));
+        displayMsg("Please indicate membership status: ");
+        displayMsg("Active membership? True/False");
+        boolean status = Boolean.parseBoolean(stringValidation("False|True|true|false", "You have to input False|True|true|false"));
 
-        ui.displayMsg("Is member a competitive swimmer?");
-        ui.displayMsg("Active membership? True/False");
-        boolean isCompetitive = Boolean.parseBoolean(ui.stringValidation("False|True|true|false"));
-
-        // TODO evt confirm details
+        displayMsg("Is member a competitive swimmer?");
+        displayMsg("Competitive swimmer? True/False");
+        boolean isCompetitive = Boolean.parseBoolean(stringValidation("False|True|true|false", "You have to input False|True|true|false"));
 
         // Creates a CompetitiveMember if isCompetitive is true.
         if (isCompetitive) {
-            database.addMember(database.createCompetitiveMember(birthDate, name, status));
+            // TODO Kan muligvis simplificeres til at parse alle korrekte kombinationer, fx "Please input all discplines member competes in: "Crawl,Butterfly".
+            displayMsg("Does member compete in butterfly?");
+            displayMsg("Butterfly? True/False");
+            boolean butterfly = Boolean.parseBoolean(stringValidation("False|True|true|false", "You have to input False|True|true|false"));
+
+            displayMsg("Does member compete in crawl?");
+            displayMsg("crawl? True/False");
+            boolean crawl = Boolean.parseBoolean(stringValidation("False|True|true|false","You have to input False|True|true|false"));
+
+            displayMsg("Does member compete in backstroke?");
+            displayMsg("backstroke? True/False");
+            boolean backstroke = Boolean.parseBoolean(stringValidation("False|True|true|false","You have to input False|True|true|false"));
+
+            displayMsg("Does member compete in breststroke?");
+            displayMsg("breaststroke? True/False");
+            boolean breaststroke = Boolean.parseBoolean(stringValidation("False|True|true|false","You have to input False|True|true|false"));
+
+            Database.addMember(Database.createCompetitiveMember(birthDate, name, status, butterfly, crawl, backstroke, breaststroke));
         } else {
-            database.addMember(database.createMember(birthDate, name, status));
+            Database.addMember(Database.createMember(birthDate, name, status));
         }
-        ui.displayMsg("\nEntry complete:\n---");
-        ui.displayMsg(database.getMembers().get(database.getMembers().size()-1).toString());
+        displayMsg("\nEntry complete:\n---");
+        displayMsg(Database.getMembers().get(Database.getMembers().size()-1).toString());
+
+        Database.saveDatabase();
     }
 
     public void showAllMembers() {
-        if (database.getMembers().size() > 0) {
-            ui.displayMsg(database.toString());
+        if (Database.getMembers().size() > 0) {
+            displayMsg(Database.getToString());
         } else {
-            ui.displayMsg("Currently no members in the database.");
+            displayMsg("Currently no members in the database.");
         }
     }
 }

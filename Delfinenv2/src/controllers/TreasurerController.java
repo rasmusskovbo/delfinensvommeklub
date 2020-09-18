@@ -2,14 +2,10 @@ package controllers;
 
 import data.Database;
 import data.Member;
-import interfaces.UserInterface;
 
 import java.util.ArrayList;
 
 public class TreasurerController {
-    UserInterface ui;
-    Database database;
-
     private double youthSubCost = 1000;
     private double seniorSubCost = 1600;
     private double elderlySubCost = Math.round(seniorSubCost*0.75);
@@ -17,38 +13,36 @@ public class TreasurerController {
     private int belowIsJunior = 18;
     private int higherIsElderly = 60;
 
-    public TreasurerController(UserInterface ui, Database database) {
-        this.ui = ui;
-        this.database = database;
+    public TreasurerController() {
     }
 
-    public long getTotalSubscriptions() {
+    // TODO implementer bedre læseligt printout
+    public double getTotalSubscriptions() {
 
-        long total = 0;
+        double total = 0;
 
-        for (int i = 0; i<database.getMembers().size(); i++) {
-            total += getMembershipFee(database.getMembers().get(i));
+        for (int i = 0; i<Database.getMembers().size(); i++) {
+            total += getMembershipFee(Database.getMembers().get(i));
         }
 
         return total;
     }
 
-    // Returner ArrayList med alle medlemmer der pt er i restance.
+    // Returns ArrayList with all members currently in arrear.
     public ArrayList<Member> getArrears() {
 
         ArrayList<Member> members = new ArrayList<>();
 
-        for (int i = 0; i<database.getMembers().size(); i++) {
-            if (database.getMembers().get(i).getBalance() < 0) {
-                members.add(database.getMembers().get(i));
+        for (int i = 0; i<Database.getMembers().size(); i++) {
+            if (Database.getMembers().get(i).getBalance() < 0) {
+                members.add(Database.getMembers().get(i));
             }
         }
 
         return members;
     }
 
-    // TODO
-    public String ArrearsToString() {
+    public String arrearsToString() {
 
         ArrayList<Member> arrears = getArrears();
         String list = "";

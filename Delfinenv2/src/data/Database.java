@@ -1,20 +1,21 @@
 package data;
 
+import interfaces.UserInterface;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Database implements Serializable {
     private static ArrayList<Member> members = new ArrayList<>();
-    private static boolean databaseIsSaved = false;
     private static File databaseFile = new File("src/data/database.txt");
 
     public static Member createMember(LocalDate birthDate, String name, boolean isActive) {
         return new Member(birthDate, name, isActive);
     }
 
-    public static CompetitiveMember createCompetitiveMember(LocalDate birthDate, String name, boolean isActive) {
-        return new CompetitiveMember(birthDate, name, isActive);
+    public static CompetitiveMember createCompetitiveMember(LocalDate birthDate, String name, boolean isActive, boolean butterfly, boolean crawl, boolean backstroke, boolean breaststroke) {
+        return new CompetitiveMember(birthDate, name, isActive, butterfly, crawl, backstroke, breaststroke);
     }
 
     public static void addMember(Member member) {
@@ -39,7 +40,6 @@ public class Database implements Serializable {
             oos.writeObject(members);
             oos.close();
             fos.close();
-            databaseIsSaved = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,18 +53,20 @@ public class Database implements Serializable {
                 members = (ArrayList<Member>) ois.readObject();
                 ois.close();
             } catch (Exception e) {
-                System.out.print("Unable to find database file. Please check or create a new.\n");
+                UserInterface.displayMsg("Unable to find database file. Please check or create a new.");
             }
         }
     }
 
-    // Returner String med alle navne ifbm indtastning af SwimResults
+    // Returns String with names/options used for adding SwimResult
     public static String getAllCompetitiveNames() {
         String result = "";
         ArrayList<CompetitiveMember> competitiveMembers = getAllCompetitiveMembers();
         for (int i = 0; i<competitiveMembers.size(); i++) {
             result += competitiveMembers.get(i).getName();
-            result += "|";
+            if (i<competitiveMembers.size()-1) {
+                result += "|";
+            }
         }
         return result;
     }
@@ -89,7 +91,7 @@ public class Database implements Serializable {
         return competitiveMembers;
     }
 
-    // søger databasen igennem for alle competitive members. Er dét, så caster den til competitivemember og tilføjer til ny arraylist der bliver returneret.
+    // Looks through database for all competitive members and casts them into a new ArrayList.
     public static ArrayList<CompetitiveMember> getAllCompetitiveMembers() {
         ArrayList<CompetitiveMember> competitiveMembers = new ArrayList<>();
 
@@ -102,7 +104,7 @@ public class Database implements Serializable {
         return competitiveMembers;
     }
 
-    public String toString() {
+    public static String getToString() {
         String result = "";
         for (int i = 0; i<members.size(); i++) {
             result += members.get(i).toString();
@@ -111,7 +113,6 @@ public class Database implements Serializable {
     }
 
     // getters & setters
-
     public static ArrayList<Member> getMembers() {
         return members;
     }

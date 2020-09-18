@@ -36,6 +36,7 @@ public class Member implements Serializable {
         LocalDate now = LocalDate.now();
         Period period = Period.between(birthDate, now);
         return period.getYears();
+        return
     }
 
     public String toString() {
@@ -48,7 +49,7 @@ public class Member implements Serializable {
         return String.format("Name: "+name+"\nAge: "+getAge()+"\nActive membership: "+ isActive +"\nTeam age: "+juniorSenior+"\nCompetitive swimmer: No\nCurrent subscription balance: "+balance+"\n---\n");
     }
 
-    // defined for CompetitiveMembers
+    // Defined for CompetitiveMembers
     public void addSwimResult(SwimResult sr) {
     }
 

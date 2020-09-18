@@ -3,11 +3,12 @@ package data;
 import java.io.Serializable;
 import java.time.LocalTime;
 
-public class SwimResult implements Serializable {
+public class SwimResult implements Serializable, Comparable<SwimResult> {
     private String discipline;
     private String eventName;
     private int placement;
     private LocalTime time;
+    private String owner;
 
     public SwimResult(String discipline, String eventName, int placement, LocalTime time) {
         this.discipline = discipline;
@@ -16,9 +17,12 @@ public class SwimResult implements Serializable {
         this.time = time;
     }
 
-    // TODO
+    public int compareTo(SwimResult other) {
+        return this.time.compareTo(other.time);
+    }
+
     public String toString() {
-        return String.format("Discpline: "+discipline+" -- Placed #"+placement+" -- @"+time+"\n");
+        return "Event: " + eventName + "Name: "+owner+" -- Discipline: "+discipline+" -- Placed #"+placement+" -- @"+time+"\n";
     }
 
     public String getDiscipline() {
@@ -51,5 +55,13 @@ public class SwimResult implements Serializable {
 
     public void setTime(LocalTime time) {
         this.time = time;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

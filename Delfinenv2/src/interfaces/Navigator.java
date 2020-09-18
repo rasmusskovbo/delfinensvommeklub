@@ -3,22 +3,19 @@ package interfaces;
 import controllers.CompetitiveController;
 import controllers.MembersController;
 import controllers.TreasurerController;
-import data.Database;
-import data.Member;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+// On demand static import.
+import static data.Database.*;
+import static interfaces.UserInterface.*;
 
 public class Navigator {
-    UserInterface ui = new UserInterface();
-    Database database = new Database();
-    CompetitiveController cc = new CompetitiveController(ui, database);
-    MembersController mc = new MembersController(ui, database);
-    TreasurerController tc = new TreasurerController(ui, database);
+    private CompetitiveController cc = new CompetitiveController();
+    private MembersController mc = new MembersController();
+    private TreasurerController tc = new TreasurerController();
 
     public Navigator() {
 
-        database.loadDatabase();
+        loadDatabase();
         menu();
 
     }
@@ -26,11 +23,11 @@ public class Navigator {
     public void menu() {
 
         while (true) {
-            ui.displayMsg("--Main Menu--");
-            ui.displayMsg("1. Manage members");
-            ui.displayMsg("2. Treasurer Options");
-            ui.displayMsg("3. Competitive Results");
-            ui.displayMsg("4. Exit");
+            displayMsg("--Main Menu--");
+            displayMsg("1. Manage members");
+            displayMsg("2. Treasurer Options");
+            displayMsg("3. Competitive Results");
+            displayMsg("4. Exit");
 
             menuOptions();
         }
@@ -39,21 +36,21 @@ public class Navigator {
 
     public void menuOptions() {
 
-        switch(ui.intValidation(4,1)) {
+        switch(intValidation(4,1)) {
 
             case 1:
                 manageMembersMenu();
-                ui.enterToReturn();
+                enterToReturn();
                 break;
 
             case 2:
                 treasurerOptionsMenu();
-                ui.enterToReturn();
+                enterToReturn();
                 break;
 
             case 3:
                 competitiveResultsMenu();
-                ui.enterToReturn();
+                enterToReturn();
                 break;
 
             case 4:
@@ -64,12 +61,12 @@ public class Navigator {
     }
 
     public void manageMembersMenu() {
-        ui.displayMsg("--Manage Members--");
-        ui.displayMsg("1. Add member");
-        ui.displayMsg("2. Show current members");
-        ui.displayMsg("3. Exit");
+        displayMsg("--Manage Members--");
+        displayMsg("1. Add member");
+        displayMsg("2. Show current members");
+        displayMsg("3. Exit");
 
-        switch(ui.intValidation(3,1)) {
+        switch(intValidation(3,1)) {
             case 1:
                 mc.addMember();
                 break;
@@ -84,18 +81,18 @@ public class Navigator {
     }
 
     public void treasurerOptionsMenu() {
-        ui.displayMsg("--Treasurer Options--");
-        ui.displayMsg("1. Display total subcription data");
-        ui.displayMsg("2. Display all current members in arrear");
-        ui.displayMsg("3. Exit");
+        displayMsg("--Treasurer Options--");
+        displayMsg("1. Display total subscription data");
+        displayMsg("2. Display all current members in arrear");
+        displayMsg("3. Exit");
 
-        switch(ui.intValidation(3,1)) {
+        switch(intValidation(3,1)) {
             case 1:
-                ui.displayMsg("Total subcription amount: "+tc.getTotalSubscriptions());
+                displayMsg("Total subscription amount: "+tc.getTotalSubscriptions());
                 break;
 
             case 2:
-                ui.displayMsg("List of arrears: "+tc.ArrearsToString());
+                displayMsg("List of arrears: "+tc.arrearsToString());
                 break;
 
             case 3:
@@ -104,13 +101,13 @@ public class Navigator {
     }
 
     public void competitiveResultsMenu() {
-        ui.displayMsg("--Competitive Results--");
-        ui.displayMsg("1. Add result to member");
-        ui.displayMsg("2. Show best results");
-        ui.displayMsg("3. Show all results");
-        ui.displayMsg("4. Exit");
+        displayMsg("--Competitive Results--");
+        displayMsg("1. Add result to member");
+        displayMsg("2. Show best results");
+        displayMsg("3. Show all results");
+        displayMsg("4. Exit");
 
-        switch(ui.intValidation(4,1)) {
+        switch(intValidation(4,1)) {
             case 1:
                 cc.addSwimResult();
                 break;
@@ -120,7 +117,8 @@ public class Navigator {
                 break;
 
             case 3:
-                ui.displayMsg("Currently not available");
+                displayMsg("-- All Swim Results --");
+                displayMsg(cc.allResultsToString());
                 break;
 
             case 4:

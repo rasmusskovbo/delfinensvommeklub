@@ -6,24 +6,16 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class UserInterface {
-    private Scanner in = new Scanner(System.in);
-    private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static Scanner in = new Scanner(System.in);
+    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     // Display functions
-    public void displayMainMenu() {
-        displayMsg("--Main Menu--");
-        displayMsg("1. Manage members");
-        displayMsg("2. Treasurer Options");
-        displayMsg("3. Competitive Results");
-        displayMsg("3. Exit");
-    }
-
-    public void displayMsg(String text){
+    public static void  displayMsg(String text){
         System.out.println(text);
     }
 
     // Input validation
-    public int intValidation(int maxAmount, int minAmount) {
+    public static int intValidation(int maxAmount, int minAmount) {
         int choice = 0;
         while (true) {
             choice = 0; //reset valg efter hvert loop
@@ -46,24 +38,24 @@ public class UserInterface {
         }
     }
 
-    public String stringValidation(String pattern) { // TODO impl String for variabel fejlmeddelelse
+    public static String stringValidation(String pattern, String errorMsg) {
         String choice = "";
         boolean flag = true;
         do {
             try {
                 choice = br.readLine();
             } catch (IOException e) {
-                e.printStackTrace(); //TODO fiks fejlmeddelsle
+                System.out.print("Cannot read line.");
             }
             flag = choice.matches(pattern);
-            if (!flag) displayMsg("Not a valid input, please try again.");
+            if (!flag) displayMsg(errorMsg);
         } while (!flag);
         displayMsg("Input accepted: "+choice);
         return choice;
     }
 
     // Scanner functions
-    public void enterToReturn() {
+    public static void enterToReturn() {
         displayMsg("Press enter to return to the main menu.");
         try {
             br.readLine();
@@ -72,20 +64,8 @@ public class UserInterface {
         }
     }
 
-    public int nextInt(){
-        return in.nextInt();
-    }
-
-    public boolean hasNextInt() {
-        return in.hasNextInt();
-    }
-
-    public String nextLine(){
-        return in.nextLine();
-    }
-
     // Error display
-    public void displayException(Exception e) {
+    public static void displayException(Exception e) {
         System.out.print(e);
     }
 
